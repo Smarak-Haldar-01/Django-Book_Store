@@ -1,2 +1,1 @@
-# Django-Book_Store
-Made By Django-JS-HTML5-CSS3-Bootstrap_v5.0
+# Django-Project-1-Book_Store
