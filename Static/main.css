@@ -1,0 +1,44 @@
+.body{
+    background-color: rgb(157, 172, 202);
+}
+/* .slogan{
+    color: rgb(239, 229, 171);
+    font-family: "Ink Free";
+    text-align: center;
+}
+.title{
+    color: rgb(199, 245, 159);
+    font-family: "Times New Roman";
+} */
+
+.head_span{
+    color: rgb(221, 247, 166);
+    font-size: large;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+.footer{
+    text-align: center;
+    margin: 30px auto;
+    color: rgb(234, 240, 248);
+    background-color: black;
+    font-family: "Ink Free",'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    margin-bottom: 0;
+}
+
+.text,.map{
+    text-align: initial;
+}
+
+.head4{
+    color: black;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+hr { margin-top: 1rem; margin-bottom: 1rem; border: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); }
+
+#t1 tr td{
+    text-align: center;
+    align-items: center;
+}
