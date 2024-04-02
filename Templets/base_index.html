@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+{% load static %}
+<table cellpadding="20px" cellspacing="2px" class="table table-dark table-striped table-bordered border-white text-center">
+  <tr>
+    <th>Book Pic</th>
+    <th>Book Name</th>
+    <th>Book Details</th>
+    <th>Book Type</th>
+    <th>Offers</th>
+    <th>Book Pic-Others</th>
+    <th>Book Price</th>
+    <th>Action</th>
+  </tr>
+{% for item in items %} 
+  <tr>
+    <td width="200px" height="200px"><img src="/Media/{{item.pic}}" class="card-img-top" alt="{{item.name}}"></td>
+    <td>{{item.name}}</td>
+    <td>{{item.details}}</td>
+    <td>{{item.product_type}}</td>
+    <td>
+      {% if item.product_offers %}
+        {{item.product_offers}}
+      {% else %}
+        No Offers Available
+      {% endif %}
+    </td>
+    <td><a href="#">Other Pics</td>
+    <td>₹{{item.product_price}}</td>
+    <td><a href="#" style="text-decoration:none;"><mark style="color:green;">Buy</mark></a></td>
+  </tr>
+{% endfor %}
+</table>
+{% endblock content %}

@@ -1,0 +1,48 @@
+{% extends "private_main.html" %}
+{% block private_content %}
+
+{% load static %}
+<br>
+<div class="container">
+    <h4 class="head4"> Add Product </h4>
+    <hr class="">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if Error %}
+        <div class="alert alert-danger" role="alert">
+            {{Error}}
+        </div>
+        {% elif Congrats %}
+        <div class="alert alert-success" role="alert">
+            {{Congrats}}
+        </div>
+        {% endif %}
+        {{frm}}
+        <br>
+        Type of Product :
+        <select class="btn btn-primary" name="select">
+            <option value="none" selected disabled>
+                Select
+            </option>
+            <option value="Drama">
+                Drama
+            </option>
+            <option value="Comedy">
+                Comedy
+            </option>
+            <option value="Fantasy">
+                Fantasy
+            </option>
+            <option value="Romance">
+                Romance
+            </option>
+        </select>
+        <br>
+        <br>
+        <input type="submit" value="Add" name="submit" class="btn btn-success">
+        <input type="reset"  value="Clear Data" name="reset" class="btn btn-danger">
+    </form>
+    <hr>
+</div>
+<br>
+{% endblock private_content %}

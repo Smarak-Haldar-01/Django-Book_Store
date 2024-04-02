@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<br>
+<br>
+
+<div class="container">
+    <h4 class="head4"> Login </h4>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        {% if Error %}
+        <div class="alert alert-danger" role="alert">
+            {{Error}}
+        </div>
+        {% elif Congrats %}
+        <div class="alert alert-success" role="alert">
+            {{Congrats}}
+        </div>
+        {% endif %}
+        {{login}}
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <br>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <input type="submit" value="Login" class="btn btn-primary" name="submit">
+    </form>
+</div>
+
+{% endblock content %}

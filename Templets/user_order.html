@@ -1,0 +1,26 @@
+{% extends "user_main.html" %}
+
+{% block user_content %}
+<br>
+<div class="container">
+    <h4 class="head4"> Post Order </h4>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        {% if Error %}
+        <div class="alert alert-danger" role="alert">
+            {{Error}}
+        </div>
+        {% elif Congrats %}
+        <div class="alert alert-success" role="alert">
+            {{Congrats}}
+        </div>
+        {% endif %}
+        {{order}}
+        <br>
+        <input type="submit" class="btn btn-success" value="Publish" name="submit">
+        <input type="reset" class="btn btn-danger" value="Clear All" name="reset">
+    </form>
+</div>
+
+{% endblock user_content %}

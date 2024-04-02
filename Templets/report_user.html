@@ -1,0 +1,30 @@
+{% extends "user_main.html" %}
+
+{% block user_content %}
+
+{% load static %}
+<br>
+<div class="container">
+    <h4 class="head4"> Report Problem </h4>
+    <hr class="">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if Error %}
+        <div class="alert alert-danger" role="alert">
+            {{Error}}
+        </div>
+        {% elif Congrats %}
+        <div class="alert alert-success" role="alert">
+            {{Congrats}}
+        </div>
+        {% endif %}
+        {{report_problem}}
+        <br>
+        <input type="submit" value="Post Report" name="submit" class="btn btn-success">
+        <input type="reset"  value="Clear Data" name="reset" class="btn btn-danger">
+    </form>
+    <hr>
+</div>
+<br>
+
+{% endblock user_content %}
