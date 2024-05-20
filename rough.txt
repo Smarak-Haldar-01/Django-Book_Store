@@ -1,0 +1,4 @@
+$('#data-details').replaceWith($('#ok'));
+$('#data-details').replaceWith($('#ok').removeAttr('hidden'));
+$('#data-details').load($('#address').removeAttr('hidden'));
+$('#data-details').html($('#personal').removeAttr('hidden'));

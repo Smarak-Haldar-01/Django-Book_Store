@@ -1,0 +1,294 @@
+{% extends "private_main.html" %}
+
+{% block private_content %}
+
+<h4 class="form-control btn btn-dark disabled" style="font-size:20px;text-align:center;color: white; font-family:Ink Free;"> Profile Setup | {{details.uname}} </h1>
+<br>
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="card" style="width: 18rem; margin-left:10px;">
+            {% if details.pic %}
+                <img src="/Media/{{details.pic}}" class="card-img-top" alt="...">
+            {% else %}
+                {% load static %}
+                <img src="{% static 'profile_pic.jpg' %}" class="card-img-top" alt="...">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{details.uname}} | Profile Pic </h5>
+                <a onclick="update_pic()" class="btn" style="text-decoration:none;" title="Edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square text-primary card-text" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg>
+                </a>
+                <a href="#" class="btn btn-danger" title="Remove Profile Picture">Remove</a>
+                <span class="text-success">Updated </span>: ____ {{E_1}}
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card text-center text-white bg-dark" style="height:100%;weidth:100%;">
+            <div class="card-header border-light">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="btn btn-warning" onclick="shows('personal')" id="personal-active">Personal</a>&nbsp; | &nbsp;
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning" onclick="shows('address')" id="address-active">Address</a>&nbsp; | &nbsp;
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning" onclick="shows('business')" id="business-active">Business</a>&nbsp; | &nbsp;
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning" onclick="shows('payment')" id="payment-active">Payment</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body" id="data-details">
+                <h4 class="text-primary" style="margin-top:13%;">Welcome to Profile<span class="text-light"> | </span><span class="text-warning">{{details.uname}}</span></h4>
+                <!--Code -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="personal" style="margin-left : 10%; margin-right:10%; display:none;">
+    <ul class="list-group list-group-flush">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <label class="form-label text-warning">Name</label>
+                    <input type="text" value="{{details.uname}}" class="form-control" disabled>
+                    <a href="" style="text-decoration:none;" title="Edit Name">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square text-primary card-text" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="col">
+                    <label class="form-label text-warning">Contact Number</label>
+                    {% if details.mob %}
+                        <input type="number" value="{{details.mob}}" class="form-control" disabled>
+                        <a href="" style="text-decoration:none;" title="Edit Contact">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square text-primary card-text" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </a>
+                    {% else %}
+                        <input type="number" placeholder="Not Provided" class="form-control" disabled>
+                        <a href="" style="text-decoration:none;" title="Add Contact">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label text-warning text">Email</label>
+                    <input type="email" value="{{details.email}}" class="form-control text-center" disabled>
+                    <a href="" style="text-decoration:none;" title="Edit Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square text-primary card-text" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label text-warning text">Password</label>
+                    <input type="password" value="{{details.password}}" class="form-control" id="c_pass" name="c_pass" disabled>
+                    <a href="#" onclick="show()" style="text-decoration:none;" title="View/Hide Password">
+                        <input type="hidden" id="showHide" value="hide">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16" id="hide">
+                            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/>
+                            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
+                            <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="col">
+                    <label class="form-label text-warning text">Update Password</label>
+                    <input type="password" placeholder="Update Password" class="form-control" disabled>
+                    <a href="#" onclick="#" class="bg-none" style="text-decoration:none; border:none;" title="Update Password">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </ul>
+</div>
+
+
+
+<div id="address" style="margin-left : 10%; margin-right:10%; display:none;">
+    Address
+</div>
+
+
+<div id="business" style="margin-left : 10%; margin-right:10%; display:none;">
+    Business
+</div>
+
+
+<div id="payment" style="margin-left : 10%; margin-right:10%; display:none;">
+    Payment
+</div>
+
+<div class="modal" id="pass-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Verify Thats You!</h5>
+            </div>
+            <form method="get" id="form_pass" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <p>Password : <span class="M">*</span> </p>
+                    <input type="password" id="pass" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="********" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="view_pass" onclick="views(1)" class="btn btn-success">Show</button>
+                    <button type="button" class="btn btn-danger close" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="pro-pic-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile Picture</h5>
+            </div>
+            <form method="post" id="form_prof_pic" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Select Picture : <span class="M">*</span> </p>
+                    <input type="file" id="pic" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                    <input type="hidden" value="{{id}}" />
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" id="update" class="btn btn-success" value="Upload">
+                    <button type="button" class="btn btn-danger close-pic" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    label{
+        font-family:"Ink Free";
+    }
+    .modal-content{
+        background-color:lightyellow;
+        font-size:20px;
+    }
+    .modal-title{
+        color:Green;
+    }
+    .M{
+        color:red;
+    }
+    .anchor-1{
+        text-decoration:none;
+    }
+</style>
+
+<script type="text/javascript">
+    function shows(show){
+        document.getElementById('data-details').innerHTML=document.getElementById(show).innerHTML;
+        if(show == 'personal'){
+            $('#personal-active').attr('class',"btn btn-success");
+            $('#business-active').attr('class',"btn btn-warning");
+            $('#address-active').attr('class',"btn btn-warning");
+            $('#payment-active').attr('class',"btn btn-warning");
+        }else if(show == 'business'){
+            $('#business-active').attr('class',"btn btn-success");
+            $('#payment-active').attr('class',"btn btn-warning");
+            $('#address-active').attr('class',"btn btn-warning");
+            $('#personal-active').attr('class',"btn btn-warning");
+        }else if(show == 'address'){
+            $('#address-active').attr('class',"btn btn-success");
+            $('#business-active').attr('class',"btn btn-warning");
+            $('#payment-active').attr('class',"btn btn-warning");
+            $('#personal-active').attr('class',"btn btn-warning");
+        }else if(show == 'payment'){
+            $('#payment-active').attr('class',"btn btn-success");
+            $('#business-active').attr('class',"btn btn-warning");
+            $('#address-active').attr('class',"btn btn-warning");
+            $('#personal-active').attr('class',"btn btn-warning");
+        }else{
+            $('#data-details').html("<p style='color:red;'>Unknown Error</p>");
+        }
+    }
+    function show(){
+        if($('#showHide').val() == 'hide'){
+            $('#pass-modal').show();
+        }else{
+            $('#show').replaceWith(`
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16" id="hide">
+                    <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/>
+                    <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
+                    <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"/>
+                </svg>
+            `);
+            $('#showHide').val("hide");
+            $('#c_pass').attr('type',"password");
+        }
+    }
+    function views(val=''){
+        if(val==1){
+            var pass=$('#pass').val();
+        }if(pass=={{details.password}}){
+            $('#form_pass').trigger('reset');
+            $('#pass-modal').fadeOut();
+            $('#hide').replaceWith(`
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" id="show">
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                </svg>
+            `);
+            $('#showHide').val("show");
+            $('#c_pass').attr('type',"text");
+        }else{
+            swal('Incorrect Password!','The password you entered is incorrect. Please try again...','error');
+        }
+    }
+    $(document).ready(function(){
+        $('.close').click(function(){
+            $('#pass-modal').fadeOut();
+        });
+        $('.close-pic').click(function(){
+            $('#pro-pic-modal').fadeOut();
+        });
+    });
+
+    function update_pic(){
+        $('#pro-pic-modal').show();
+    }
+</script>
+ 
+{% if E_1 in 'N_pass' %}
+    <script type="text/javascript">
+        swal('{{heading}}',"The Profile Photo Cannot Be Uploaded Due to Some Error or You Might Have Not Uploaded any Photo of you. Try Again!!!","error");
+    </script>
+{% elif E_1 %}
+    <script type="text/javascript">
+        swal('{{heading}}',"Thats Looks Great and Is Quite Impressive. Picture Updated Successfully...","success");
+    </script>
+{% endif %} 
+
+{% endblock private_content %}

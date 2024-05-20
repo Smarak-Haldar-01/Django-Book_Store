@@ -7,7 +7,7 @@
 <div class="container">
     <h4 class="head4"> Report Problem </h4>
     <hr class="">
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="reports_from_user">
         {% csrf_token %}
         {% if Error %}
         <div class="alert alert-danger" role="alert">
@@ -20,11 +20,64 @@
         {% endif %}
         {{report_problem}}
         <br>
-        <input type="submit" value="Post Report" name="submit" class="btn btn-success">
+        <!-- <input type="hidden" name="id" value="{{id}}"> -->
+        <input type="submit" value="Post Report" name="submit" onclick="user_report()" class="btn btn-success">
         <input type="reset"  value="Clear Data" name="reset" class="btn btn-danger">
     </form>
     <hr>
 </div>
 <br>
-
+{% comment %} <script type="text/javascript">
+    function user_report(){
+        var formData=new FormData(document.getElementById("reports_from_user"));
+        // alert(formData);
+        console.log(formData);
+        $.ajax({
+            url:'{% url "report_p_u_s" %}',
+            method:'post',
+            data:{'formData':formData},
+            success :  function(complete){
+                if(complete){
+                    // alert("OK"); //Test
+                    /* swal(
+                        {
+                            title:"Your Account is deleted Successfully!",
+                            'text':"Hope See You Soon Again...",
+                            'icon':'success'
+                        },function(){
+                            location.reload();
+                        }
+                    ); */
+                    swal(
+                        {
+                            title:"Your Report is registered Successfully!",
+                            'text':"We will update your report satus soon...",
+                            'icon':'success'
+                        },function(){
+                            location.reload();
+                        }
+                    );
+                }
+                // Test
+                /* swal(
+                    {
+                        title:"Your Report is registered Successfully!",
+                        'text':"We will update your report satus soon...",
+                        'icon':'success'
+                    },function(){
+                        location.reload();
+                    }
+                ); */
+            },error:function(){
+                swal(
+                    {
+                        title:"Your Report cannot be granted!",
+                        'text':"Contact Us...",
+                        'icon':'error'
+                    }
+                );
+            }
+        });
+    }
+</script> {% endcomment %}
 {% endblock user_content %}

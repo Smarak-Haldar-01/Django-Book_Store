@@ -14,6 +14,10 @@ from Book_Store.order import order
 
 from Book_Store.report_problem import report_problem
 
+from django.contrib.auth import logout as log_out
+
+import os
+
 
 
 def index(request):
@@ -167,6 +171,7 @@ def logout(request):
         url='/error/?Error={}'.format(msg)
         return redirect(url)
     else:
+        log_out(request)
         return render(request,'base_index.html',{'Title':'Home','items':items})
     
 def private_index(request,id):
@@ -181,24 +186,39 @@ def private_index(request,id):
     else:
         return render(request,'private_index.html',{'Title':'Home','items':items,'name':credential.uname,'pic':credential.pic,'id':id})
     
-def deletes(request,mid,pid):
-    try:
-        credential=user.objects.get(id=mid)
-        dels=product.objects.get(id=pid)
-        dels.delete()
-    except Exception as E:
-        msg="Error Occured -> System ERROR -- {}".format(E)
-        url='/error/?Error={}'.format(msg)
-        return redirect(url)
-    else:
+# def deletes(request,mid,pid):
+#     try:
+#         credential=user.objects.get(id=mid)
+#         dels=product.objects.get(id=pid)
+#         dels.delete()
+#     except Exception as E:
+#         msg="Error Occured -> System ERROR -- {}".format(E)
+#         url='/error/?Error={}'.format(msg)
+#         return redirect(url)
+#     else:
+#         try:
+#             items=product.objects.all()
+#         except Exception as E:
+#             msg="Error Occured -> System ERROR -- {}".format(E)
+#             url='/error/?Error={}'.format(msg)
+#             return redirect(url)
+#         else:
+#             return render(request,'view_products.html',{'Title':'View Products','items':items,'Congrats':'Product(s) Deleted Successfully.','name':credential.uname,'pic':credential.pic,'id':mid})
+
+def delete_product(request):
+    if request.method == 'GET':
+        pid=request.GET.get('pid')
+        mid=request.GET.get('mid')
         try:
+            product.objects.get(id=pid).delete()
             items=product.objects.all()
+            credential=user.objects.get(id=mid)
         except Exception as E:
             msg="Error Occured -> System ERROR -- {}".format(E)
             url='/error/?Error={}'.format(msg)
             return redirect(url)
         else:
-            return render(request,'view_products.html',{'Title':'View Products','items':items,'Congrats':'Product(s) Deleted Successfully.','name':credential.uname,'pic':credential.pic,'id':mid})
+            return render(request,'view_products.html',{'Title':'View Products','items':items,'name':credential.uname,'pic':credential.pic,'id':mid,'info':credential})
 
 def productView(request,id):
     try:
@@ -209,7 +229,7 @@ def productView(request,id):
         url='/error/?Error={}'.format(msg)
         return redirect(url)
     else:
-        return render(request,'view_products.html',{'Title':'View Products','items':items,'name':credential.uname,'pic':credential.pic,'id':id})
+        return render(request,'view_products.html',{'Title':'View Products','items':items,'name':credential.uname,'pic':credential.pic,'id':id,'info':credential})
 
 def user_index(request,id):
     try:
@@ -248,7 +268,7 @@ def orders(request,id):
             if request.POST.get('ex_order_time'):
                 ex_t=request.POST.get('ex_order_time')
             try:
-                order_save=ordered(uid=credential.id,umail=umail,order_name=or_n,order_details=or_d,ex_order_delevery=ex_d,ex_order_delevery_time=ex_t)
+                order_save=ordered(uid=user.objects.get(id=id),umail=umail,order_name=or_n,order_details=or_d,ex_order_delevery=ex_d,ex_order_delevery_time=ex_t)
                 order_save.save()
             except Exception as E:
                 msg="Error Occured -> System ERROR -- {}".format(E)
@@ -269,9 +289,12 @@ def viewOrder(request,id):
     else:
         return render(request,'view_order.html',{'Title':'View Ordered Item(s)','name':credential.uname,'pic':credential.pic,'id':id,'order_info':ob_order})
 
-def deleteUser(request,id):
+def deleteUser(request):
     try:
+        id=request.GET.get('id')
         del_ob=user.objects.get(id=id)
+        if os.path.isfile("./Media/"+str(del_ob.pic)):
+            os.remove('./Media/'+str(del_ob.pic))
         del_ob.delete()
         details=product.objects.all()
     except Exception as E:
@@ -319,7 +342,59 @@ def reported_problems(request,id):
         url='/error/?Error={}'.format(msg)
         return redirect(url)
     else:
-        return render(request,'private_user_reported_problems.html',{'Title':'Reported Problems','name':credential.uname,'pic':credential.pic,'id':id,'report_info':report})
+        return render(request,'private_user_reported_problems.html',{'Title':'Reported Problems','name':credential.uname,'pic':credential.pic,'id':id,'report_info':report,'info':credential})
 
 def helpLine(request):
     return render(request,'helpline.html',{'Title':'Help Desk'})
+
+def delete_report(request):
+    if request.method == 'GET':
+        id=request.GET.get('id')
+        mid=request.GET.get('mid')
+        try:
+            ob_del=reportProblem_1.objects.get(id=id)
+            if os.path.isfile("./Media/"+str(ob_del.problem_pic)):
+                os.remove('./Media/'+str(ob_del.problem_pic))
+            ob_del.delete()
+            report=reportProblem_1.objects.all().filter(utype='Client')
+            credential=user.objects.get(id=mid)
+        except Exception as E:
+            msg="Error Occured -> System ERROR -- {}".format(E)
+            url='/error/?Error={}'.format(msg)
+            return redirect(url)
+        else:
+            return render(request,'private_user_reported_problems.html',{'Title':'Reported Problems','name':credential.uname,'pic':credential.pic,'id':id,'report_info':report})
+
+def private_profile(request,id):
+    try:
+        credential=user.objects.get(id=id)
+    except Exception as E:
+        msg="Error Occured -> System ERROR -- {}".format(E)
+        url='/error/?Error={}'.format(msg)
+        return redirect(url)
+    else:
+        return render(request,'private_profile.html',{'Title':f'Profile | {credential.uname}','name':credential.uname,'pic':credential.pic,'id':id,'details':credential})
+    
+def update_profile_pic(request,id):
+    if request.method == 'POST':
+        if request.FILES.get('pic'):
+            print('OK')
+            try:
+                credential=user.objects.get(id=id)
+            except Exception as E:
+                msg="Error Occured -> System ERROR -- {}".format(E)
+                url='/error/?Error={}'.format(msg)
+                return redirect(url)
+            else:
+                heading = "Profile Picture Uploaded Successfully!"
+                return render(request,'private_profile.html',{'Title':f'Profile | {credential.uname}','name':credential.uname,'pic':credential.pic,'id':id,'details':credential,'E_1':'pass','heading':heading})
+        else:
+            heading="Picture Not Found!!"
+            try:
+                credential=user.objects.get(id=id)
+            except Exception as E:
+                msg="Error Occured -> System ERROR -- {}".format(E)
+                url='/error/?Error={}'.format(msg)
+                return redirect(url)
+            else:
+                return render(request,'private_profile.html',{'Title':f'Profile | {credential.uname}','name':credential.uname,'pic':credential.pic,'id':id,'details':credential,'E_1':'N_pass','heading':heading})

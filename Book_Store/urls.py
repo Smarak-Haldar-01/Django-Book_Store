@@ -28,17 +28,22 @@ urlpatterns = [
     path("logout/",views.logout,name='logout'),
     path("signin/",views.signin,name='signin'),
     path("error/",views.error,name='error'),
-    path("add_pr$o#duct/<int:id>",views.manager_add_product,name='add_product'),
+    path("add_product/<int:id>",views.manager_add_product,name='add_product'),
     path("private_home/<int:id>",views.private_index,name='m_home'),
-    path('deletes/<int:mid>/<int:pid>',views.deletes,name='deletes'),
+    # path('deletes/<int:mid>/<int:pid>',views.deletes,name='deletes'), --- Hold
+    path('delete_product/',views.delete_product,name='delete_product'), # --- Running
     path('view_products/<int:id>',views.productView,name='view_products'),
     path('orders/<int:id>',views.orders,name='orders'),
     path('user_control/<int:id>',views.user_index,name='home_u'),
     path('view-order/<int:id>',views.viewOrder,name="view_order"),
-    path('deleteUser/<int:id>',views.deleteUser,name='deleteUser'),
+    path('deleteUser/',views.deleteUser,name='deleteUser'),
     path('report_problem/<int:id>',views.report_problem_u,name='report_p_u'),
+    # path('report_problem/report_problem_save/',views.report_problem_u_save,name='report_p_u_s'), # Testing
     path('reported_problems/<int:id>',views.reported_problems,name='reported-m'),
     path('help-line/',views.helpLine,name='helpline'),
+    path('delete_report/',views.delete_report,name="delete_report"),
+    path('profile/<int:id>/',views.private_profile,name="profile"),
+    path('profile/<int:id>/',views.update_profile_pic,name="update_pic"),
 ]
 
 if settings.DEBUG:

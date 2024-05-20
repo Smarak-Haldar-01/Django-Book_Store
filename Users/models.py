@@ -45,3 +45,7 @@ class reportProblem_1(models.Model):
     problem_date=models.DateField(null=False)
     problem_time=models.TimeField(null=False)
     report_date=models.DateTimeField(auto_now_add=True)
+
+class updated_last_profile(models.Model):
+    uid=models.ForeignKey(user,to_field='id',on_delete=models.CASCADE)
+    updated_at=models.DateTimeField(auto_now_add=True)

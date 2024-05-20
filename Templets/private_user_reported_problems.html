@@ -3,7 +3,7 @@
 {% block private_content %}
 
 <h4 class="form-control btn btn-dark disabled" style="font-size:20px;text-align:center;color: white; font-family:Ink Free;"> Reported Problems </h1>
-
+{% load static %}
 {% csrf_token %}
 {% if Congrats %}
     <div class="alert alert-success" role="alert">
@@ -38,7 +38,13 @@
                 ~~~ No Details ~~~
             {% endif %}
         </td>
-        <td><img src='/Media/{{item.problem_pic}}' height="90px" width="90px"></td>
+        <td>
+            {% if item.problem_pic %}
+                <img src='/Media/{{item.problem_pic}}' height="90px" width="90px" alt="Problem Picture">
+            {% else %}
+                <img src='{% static "no_image_found.jpg" %}' height="90px" width="90px" alt="Problem Picture">
+            {% endif %}
+        </td>
         <td>
             {{item.problem_date}}
         </td>
@@ -48,23 +54,21 @@
         <td>{{item.report_date}}</td>
         <td>
         &nbsp;&nbsp;&nbsp;
-        <a href="#">
-        <button class="bg-dark" id="del">
+        <button class="bg-dark" id="del" onclick="delete_report('{{item.id}}','{{info.id}}')" title="Delete">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash text-danger" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
             </svg>
-        </button></a><br>&nbsp;&nbsp;&nbsp;
-        <button class="bg-dark">
+        </button><br>&nbsp;&nbsp;&nbsp;
+        <button class="bg-dark"  title="Edit">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square text-primary" viewBox="0 0 16 16">
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
             </svg>
         </button><br>&nbsp;&nbsp;&nbsp;
-        <button class="bg-dark">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye text-white" viewBox="0 0 16 16">
-                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+        <button class="bg-dark"  title="Forward">
+            <svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square text-primary" viewBox="0 0 16 16">
+                <path d="M13.9551 5.18341L18.9329 9.60815C19.8635 10.4353 20.3288 10.8489 20.5002 11.3373C20.6508 11.7662 20.6508 12.2335 20.5002 12.6624C20.3288 13.1508 19.8635 13.5644 18.9329 14.3916L13.9551 18.8163C13.5328 19.1917 13.3216 19.3794 13.1423 19.3861C12.9865 19.3919 12.8369 19.3247 12.7377 19.2044C12.6236 19.0659 12.6236 18.7834 12.6236 18.2184V15.4284C10.1955 15.4284 7.63093 16.2083 5.75831 17.5926C4.78342 18.3133 4.29595 18.6737 4.11029 18.6595C3.92932 18.6456 3.81446 18.575 3.72056 18.4196C3.62423 18.2603 3.70932 17.7624 3.87949 16.7666C4.98446 10.3004 9.43443 8.57129 12.6236 8.57129V5.78134C12.6236 5.21632 12.6236 4.93381 12.7377 4.79531C12.8369 4.67498 12.9865 4.6078 13.1423 4.61363C13.3216 4.62034 13.5328 4.80803 13.9551 5.18341Z" fill="white"/>
             </svg>
         </button>
         </td>
@@ -72,5 +76,39 @@
     {% endif %}
     {% endfor %}
 </table>
+
+<script type="text/javascript">
+    function delete_report(id,mid){
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this report!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willdelete)=>{
+            if(willdelete){
+                $.ajax({
+                    url:'{% url "delete_report" %}',
+                    method:'get',
+                    data:{'id':id,'mid':mid},
+                    success:function(done){
+                        if(done){
+                            swal('Awesome!',"Report Deleted Successfully...","success")
+                            .then((done)=>{
+                                if(done){
+                                    location.reload();
+                                }
+                            });
+                        }
+                    },error:function(err){
+                        if(err){
+                            swal('Report Can\'t Be Deleted.',"Try Again!","error");
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>
 
 {% endblock private_content %}
