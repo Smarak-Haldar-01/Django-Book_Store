@@ -165,6 +165,7 @@ def manager_add_product(request,id):
 
 def logout(request):
     try:
+        request.session.clear()
         items=product.objects.all()
     except Exception as E:
         msg="Error Occured -> System ERROR -- {}".format(E)
