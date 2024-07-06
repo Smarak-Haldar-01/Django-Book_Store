@@ -42,3 +42,20 @@ hr { margin-top: 1rem; margin-bottom: 1rem; border: 0; border-top: 1px solid rgb
     text-align: center;
     align-items: center;
 }
+
+label{
+    font-family:"Ink Free";
+}
+.modal-content{
+    background-color:lightyellow;
+    font-size:20px;
+}
+.modal-title{
+    color:Green;
+}
+.M{
+    color:red;
+}
+.anchor-1{
+    text-decoration:none;
+}

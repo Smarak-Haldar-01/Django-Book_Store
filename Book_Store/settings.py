@@ -76,8 +76,12 @@ WSGI_APPLICATION = "Book_Store.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "book_store_live", #db_name
+        "USER" : "root", #root
+        "PASSWORD" : "",
+        "HOST" : "localhost",
+        "PORT" : "3306"
     }
 }
 
